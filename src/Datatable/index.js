@@ -133,15 +133,14 @@ export default class ReactDatatable extends React.Component {
     }
 
     render() {
-        let {
-          theme, // theme: one of ["bootstrap", "bootstrap4", "foundation", "jqueryui", "material", "semanticui", "uikit"]
-          options, // datatable options, but ajax or data
-          dataSrc, // option.ajax or option.data
-          columns, // the columns setting of datatable
-          events,  // the callback function after draw complete
-          hasCheckOptionsChange, // check the change of options when componentWillUpdate
-          hasOptimizeDisplay, // the optimize for the display
-          ...props } = this.props;
+        // theme: one of ["bootstrap", "bootstrap4", "foundation", "jqueryui", "material", "semanticui", "uikit"]
+        // options: datatable options, but ajax or data
+        // dataSrc: option.ajax or option.data
+        // columns: the columns setting of datatable
+        // events: the callback function after draw complete
+        // hasCheckOptionsChange: check the change of options when componentWillUpdate
+        // hasOptimizeDisplay: the optimize for the display
+        let {theme, options, dataSrc, columns, events,  hasCheckOptionsChange, hasOptimizeDisplay, ...props } = this.props;
         // console.log("props", this.props);
         return (
             <table {...props} ref="table" id={ this.props.id }>
