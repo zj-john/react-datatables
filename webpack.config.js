@@ -4,20 +4,22 @@ module.exports = {
   	app:['./src/index.js']
   },
   output: {
-    path: path.resolve(__dirname, './build'),
-    filename: 'bundle.js',
-    publicPath:"/build/",
+    path: path.resolve(__dirname, './lib'),
+    filename: 'index.js',
+    publicPath:"/lib/",
   },
   module: {
     loaders:[
       {
-        test: /\.jsx?$/,
+        test: /\.js?$/,
         loader: 'babel-loader',
-        exclude: /node_modules/,
+        exclude: [
+          /node_modules/
+        ],
         query: {
-          presets: [
-            ["env", {"modules": false}], "stage-2", 'react'
-          ]
+            presets: [
+              ["env", {"modules": false}], "stage-2", 'react'
+            ]
         }
       },
       {
@@ -32,5 +34,10 @@ module.exports = {
           }
       }
     ]
-  }
+  },
+  resolve: {
+      alias: {
+        'MediaRoot': path.resolve(__dirname, './src/media')
+      }
+  },
 };
