@@ -1,10 +1,10 @@
 {
   "name": "react-datatable-jq",
-  "version": "0.0.3",
+  "version": "0.0.8",
   "description": "Datatable components built with React and JQuery",
   "main": "lib/index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "babel src --out-dir lib --presets=env,react,stage-2",
     "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/react-datatable-jq.js",
     "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/react-datatable-jq.min.js"
   },
@@ -30,6 +30,7 @@
     "react-dom": "^16.2.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",

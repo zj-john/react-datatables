@@ -32,5 +32,18 @@ module.exports = {
           }
       }
     ]
+  },
+  devServer: {
+      port: 5000,
+      proxy: {
+          '/api/': {
+              target: 'http://yapi.demo.qunar.com/',
+              changeOrigin: true,
+              secure: false,
+              pathRewrite: {
+                  '^/api' : '/mock/2910/api',
+              }
+          }
+      }
   }
 };

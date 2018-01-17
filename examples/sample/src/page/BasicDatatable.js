@@ -1,8 +1,8 @@
 //index.js
 import React from 'react';
-import { Datatable } from 'react-datatable-jq'
+import Datatable from 'react-datatable-jq'
 import { options } from './config.js'
-
+//
 let operation_render = function (data, type, full, row, meta) {
     return `
    <span class="relationInfo tool_tip glyphicon glyphicon-th-large btn btn-xs" data-toggle="tooltip" title="详情页"></span>
@@ -16,7 +16,6 @@ class BasicDatatable extends React.Component {
 	constructor (props) {
 	    super(props);
 	    // 修改默认option
-	    options.serverSide = true;
 	    options.ording = false;
 	    this.options = options;
 	    this.events = [
@@ -54,9 +53,6 @@ class BasicDatatable extends React.Component {
 	            className:"menu",
 	            orderable: false,
 	            createdCell: function (td, cellData, rowData, row, col) {
-	                $(td).find('.tool_tip').tooltip({
-	                    placement: 'top',
-	                });
 	                $(td).on('click', '.relationInfo', function () {
 	                    window.location.href =  `#/relation?type=application&id=${rowData.app_id}&name=${rowData.app_name}`
 	                });
@@ -70,31 +66,47 @@ class BasicDatatable extends React.Component {
 	        }
 	    ]
 	    this.state = {
-	        datatableData: null,
+	        DTdata: null,
 	    }
 	}
 
 	componentWillMount () {
-			const url = "http://yapi.demo.qunar.com/mock/2910/api/basic/ajax";
+			const url = "/api/basic/ajax";
       let form_data = {
 				"range": "all"
       }
       let set_ajax = {
-        "method":"ajax",
-        "url": url,
-        "data": form_data,
-        "type": 'post'
+        _method: "ajax",
+        url: url,
+        data: function (d) {
+            $.extend(d, form_data);
+            return JSON.stringify(d);
+        },
+        type: "post",
+        contentType: "application/json; charset=utf-8",
+        dataSrc: "data"
       }
 
       this.setState({
-          datatableData: set_ajax,
+          DTdata: set_ajax,
       })
   }
-
+// theme: one of ["bootstrap", "bootstrap4", "foundation", "jqueryui", "material", "semanticui", "uikit"], default JqueryDatatable
 
 	render() {
 	    return (
-  				<div>this is sample<Datatable /></div>
+  				<div>this is sample
+					<Datatable
+              theme = {""}
+							options = { this.options }
+							DTdata = {this.state.DTdata}
+							columns={this.columns}
+							events = {this.events}
+							className="table table-striped table-hover"
+							id="application_table"
+						>
+						</Datatable>
+					</div>
 	    );
 	}
 }
