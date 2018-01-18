@@ -15,9 +15,24 @@ class BootstrapDatatable extends React.Component {
           import(`./../media/js/dataTables.bootstrap.min.js`),
           import(`./../media/css/dataTables.bootstrap.min.css`)
         ]).then( () => {
-          let element = $("#"+this.props.id);
+          let element = this.getElement(this.props.id, this.props.className);
           this.datatable(element, this.props);
         });
+    }
+
+    getElement(id, className) {
+      if (id && typeof id ==="string") {
+        return $("#" + id);
+      } else if (className && typeof className ==="string") {
+        let class_list = className.split(" "),
+            class_selector = "";
+        class_list.map(function(item){
+          class_selector = class_selector + "." + item;
+        });
+        return $($(class_selector)[0]);
+      } else {
+        return $($("table")[0]);
+      }
     }
 
     componentWillUpdate(nextProps) {
@@ -27,7 +42,7 @@ class BootstrapDatatable extends React.Component {
             nextPropsOptions = nextProps.options,
             hasCheckOptionsChange = nextProps.hasCheckOptionsChange || false;
         if (!_.isEqual(oldPropsData, nextPropsData) || (hasCheckOptionsChange && !_.isEqual(oldPropsOptions, nextPropsOptions)) ) {
-            let element = $("#"+this.props.id);
+            let element = this.getElement(this.props.id, this.props.className);
             if ($.fn.DataTable.isDataTable(element)) {
                 element.dataTable().fnClearTable();
                 element.dataTable().fnDestroy();
@@ -81,7 +96,6 @@ class BootstrapDatatable extends React.Component {
               options.deferRender = true;
           }
           options.ajax = dtData;
-
         } else if ( dtData._method === 'data') {
           options.data = dtData.data;
           if (options.hasOptimizeDisplay && options.data && options.data.length <= 10) {
@@ -89,15 +103,9 @@ class BootstrapDatatable extends React.Component {
               options.searching = false;
               options.lengthChange = false;
           }
-
         } else if ( dtData._method === 'url') {
           options.ajax = dtData.url;
         } else if ( dtData._method === 'function') {
-          // "ajax": function (data, callback, settings) {
-          //   callback(
-          //     JSON.parse( localStorage.getItem('dataTablesData') )
-          //   );
-          // }
           options.ajax = dtData.func;
         }
         return options;
@@ -114,7 +122,7 @@ class BootstrapDatatable extends React.Component {
         let {theme, options, dtData, columns, events,  hasCheckOptionsChange, hasOptimizeDisplay, ...props } = this.props;
 
         return (
-            <table {...props} id={ this.props.id }>
+            <table {...props} id={ this.props.id } className = {this.props.className}>
             </table>
         )
     }

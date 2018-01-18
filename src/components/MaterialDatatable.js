@@ -14,9 +14,24 @@ export default class MaterialDatatable extends React.Component {
           import(`./../media/js/dataTables.material.min.js`),
           import(`./../media/css/dataTables.material.min.css`)
         ]).then( () => {
-          let element = $("#"+this.props.id);
+          let element = this.getElement(this.props.id, this.props.className);
           this.datatable(element, this.props);
         });
+    }
+
+    getElement(id, className) {
+      if (id && typeof id ==="string") {
+        return $("#" + id);
+      } else if (className && typeof className ==="string") {
+        let class_list = className.split(" "),
+            class_selector = "";
+        class_list.map(function(item){
+          class_selector = class_selector + "." + item;
+        });
+        return $($(class_selector)[0]);
+      } else {
+        return $($("table")[0]);
+      }
     }
 
     componentWillUpdate(nextProps) {
@@ -26,7 +41,7 @@ export default class MaterialDatatable extends React.Component {
             nextPropsOptions = nextProps.options,
             hasCheckOptionsChange = nextProps.hasCheckOptionsChange || false;
         if (!_.isEqual(oldPropsData, nextPropsData) || (hasCheckOptionsChange && !_.isEqual(oldPropsOptions, nextPropsOptions)) ) {
-            let element = $("#"+this.props.id);
+            let element = this.getElement(this.props.id, this.props.className);
             if ($.fn.DataTable.isDataTable(element)) {
                 element.dataTable().fnClearTable();
                 element.dataTable().fnDestroy();

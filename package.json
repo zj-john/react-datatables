@@ -1,6 +1,6 @@
 {
   "name": "react-datatable-jq",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "description": "Datatable components built with React and JQuery",
   "main": "lib/index.js",
   "scripts": {

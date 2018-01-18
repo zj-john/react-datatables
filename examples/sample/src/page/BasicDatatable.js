@@ -66,29 +66,34 @@ class BasicDatatable extends React.Component {
 	        }
 	    ]
 	    this.state = {
-	        DTdata: null,
+	        dtData: null,
 	    }
 	}
 
 	componentWillMount () {
 			const url = "/api/basic/ajax";
+      const method_url = "/api/method_url";
       let form_data = {
 				"range": "all"
       }
-      let set_ajax = {
-        _method: "ajax",
-        url: url,
-        data: function (d) {
-            $.extend(d, form_data);
-            return JSON.stringify(d);
-        },
-        type: "post",
-        contentType: "application/json; charset=utf-8",
-        dataSrc: "data"
+      let dtData = {
+        _method: "url",
+        url: method_url
       }
+      // let dtData = {
+      //   _method: "ajax",
+      //   url: url,
+      //   data: function (d) {
+      //       $.extend(d, form_data);
+      //       return JSON.stringify(d);
+      //   },
+      //   type: "post",
+      //   contentType: "application/json; charset=utf-8",
+      //   dataSrc: "data"
+      // }
 
       this.setState({
-          DTdata: set_ajax,
+          dtData: dtData,
       })
   }
 // theme: one of ["bootstrap", "bootstrap4", "foundation", "jqueryui", "material", "semanticui", "uikit"], default JqueryDatatable
@@ -97,9 +102,9 @@ class BasicDatatable extends React.Component {
 	    return (
   				<div>this is sample
 					<Datatable
-              theme = {""}
+              theme = {"bootstrap"}
 							options = { this.options }
-							DTdata = {this.state.DTdata}
+							dtData = {this.state.dtData}
 							columns={this.columns}
 							events = {this.events}
 							className="table table-striped table-hover"
