@@ -1,18 +1,12 @@
 //index.js
 import React from 'react';
 import Datatable from 'react-datatable-jq'
-import { options } from './config.js'
-//
-let operation_render = function (data, type, full, row, meta) {
-    return `
-   <span class="relationInfo tool_tip glyphicon glyphicon-th-large btn btn-xs" data-toggle="tooltip" title="详情页"></span>
-   <span class="deviceAction tool_tip glyphicon glyphicon-resize-horizontal btn btn-xs" data-toggle="tooltip" title="拉入\出操作"></span>
-   <span class="containerAction tool_tip glyphicon glyphicon-cog btn btn-xs" data-toggle="tooltip" title="容器操作"></span>
-   <span class="checkAction tool_tip glyphicon glyphicon-ok btn btn-xs" data-toggle="tooltip" title="Check"></span>
-    `
-}
+import { options } from './../config.js'
 
-class BasicDatatable extends React.Component {
+require("./../../assets/jquery-ui/jquery-ui.js");
+require("./../../assets/jquery-ui/jquery-ui.css");
+
+class JqueryuiDatatable extends React.Component {
 	constructor (props) {
 	    super(props);
 	    // 修改默认option
@@ -23,7 +17,7 @@ class BasicDatatable extends React.Component {
 	        type: "click",
 	        scope: "tbody tr td",
 	        func: function() {
-	           console.log("a test");
+	           console.log("you click the td dom");
 	        }
 	      }
 	    ]
@@ -41,22 +35,21 @@ class BasicDatatable extends React.Component {
 	        {
 	            data: 'sex',
 	            title: 'Sex',
-							render: function (data, full) {
-	                return `${data}G`;
+							render: function(data, full) {
+                return data.toUpperCase() === 'M' ? "Boy": "Girl";
 	            },
 	            orderable: false
 	        },
 	        {
 	            data: null,
 	            title: 'Menu',
-	            render: operation_render,
+	            render: function() {
+                return `<button className={action}>Action</button>`
+              },
 	            className:"menu",
 	            orderable: false,
 	            createdCell: function (td, cellData, rowData, row, col) {
-	                $(td).on('click', '.relationInfo', function () {
-	                    window.location.href =  `#/relation?type=application&id=${rowData.app_id}&name=${rowData.app_name}`
-	                });
-	                $(td).on('click', '.deviceAction', function () {
+	                $(td).on('click', '.action', function () {
 	                    page.setState({
 	                        showModal: true,
 	                        modalInfo: rowData,
@@ -115,4 +108,4 @@ class BasicDatatable extends React.Component {
 	    );
 	}
 }
-export default BasicDatatable;
+export default JqueryuiDatatable;

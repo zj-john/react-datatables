@@ -43,7 +43,6 @@ export default class FoundationDatatable extends React.Component {
         if (!_.isEqual(oldPropsData, nextPropsData) || (hasCheckOptionsChange && !_.isEqual(oldPropsOptions, nextPropsOptions)) ) {
             let element = this.getElement(this.props.id, this.props.className);
             if ($.fn.DataTable.isDataTable(element)) {
-                element.dataTable().fnClearTable();
                 element.dataTable().fnDestroy();
             }
             this.datatable(element, nextProps);
@@ -87,31 +86,28 @@ export default class FoundationDatatable extends React.Component {
             dtData = props.dtData,
             options = {};
         options = _.extend(props.options, {
-          columns: props.columns,
+          aoColumns: props.columns,
           hasOptimizeDisplay: props.hasOptimizeDisplay
         });
         if ( dtData._method === 'ajax') {
           if (!!!options.serverSide) {
               options.deferRender = true;
           }
+          delete options.data;
           options.ajax = dtData;
-
         } else if ( dtData._method === 'data') {
+          delete options.ajax;
           options.data = dtData.data;
           if (options.hasOptimizeDisplay && options.data && options.data.length <= 10) {
               options.paging = false;
               options.searching = false;
               options.lengthChange = false;
           }
-
         } else if ( dtData._method === 'url') {
+          delete options.data;
           options.ajax = dtData.url;
         } else if ( dtData._method === 'function') {
-          // "ajax": function (data, callback, settings) {
-          //   callback(
-          //     JSON.parse( localStorage.getItem('dataTablesData') )
-          //   );
-          // }
+          delete options.data;
           options.ajax = dtData.func;
         }
         return options;

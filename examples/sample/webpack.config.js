@@ -30,6 +30,10 @@ module.exports = {
           query: {
               name: 'assets/img/[name].[ext]'
           }
+      },
+      {
+        test: /\.(eot|woff2|ttf|svg|woff)$/,
+        loader: "file-loader"
       }
     ]
   },
