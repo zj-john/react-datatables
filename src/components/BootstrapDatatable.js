@@ -57,9 +57,13 @@ class BootstrapDatatable extends React.Component {
             options = this.getOptionByProps(props),
             datatable_events = events || [],
             events_num = datatable_events.length,
-            i = 0,
-            // https://datatables.net/upgrade/1.10
-            _dataTable = element.DataTable(options);
+            i = 0;
+        if ($.fn.dataTable.isDataTable(element) || element.hasClass("dataTable")) {
+          return false;
+        }
+        // https://datatables.net/upgrade/1.10
+        // debugger;
+        let _dataTable = element.DataTable(options);
         // bind event
         for (; i < events_num; i++) {
           let _event = datatable_events[i],

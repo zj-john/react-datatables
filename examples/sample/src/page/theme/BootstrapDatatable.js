@@ -156,20 +156,25 @@ class BootstrapDatatable extends React.Component {
         _method: "url",
         url: method_url
       }
-      let dtData_new = {
-        _method: "ajax",
-        url: url,
-        data: function (d) {
-            $.extend(d, form_data);
-            return JSON.stringify(d);
-        },
-        type: "post",
-        contentType: "application/json; charset=utf-8",
-        dataSrc: "data"
+      // let dtData_new = {
+      //   _method: "ajax",
+      //   url: url,
+      //   data: function (d) {
+      //       $.extend(d, form_data);
+      //       return JSON.stringify(d);
+      //   },
+      //   type: "post",
+      //   contentType: "application/json; charset=utf-8",
+      //   dataSrc: "data"
+      // }
+
+			let dtData_new = {
+        _method: "data",
+        data: [{"id":0,"name":"john","sex":"M"},{"id":1,"name":"Iris","sex":"F"}]
       }
 
       this.setState({
-          dtData: dtData
+          dtData: dtData_new
       })
     }
 
