@@ -44,7 +44,9 @@ class BootstrapDatatable extends React.Component {
         if (!_.isEqual(oldPropsData, nextPropsData) || (hasCheckOptionsChange && !_.isEqual(oldPropsOptions, nextPropsOptions)) ) {
             let element = this.getElement(this.props.id, this.props.className);
             if ($.fn.DataTable.isDataTable(element)) {
-                element.dataTable().fnDestroy();
+                element.DataTable().destroy();
+                // empty in case the columns change https://datatables.net/reference/api/destroy()
+                element.empty();
             }
             this.datatable(element, nextProps);
         }
@@ -56,7 +58,8 @@ class BootstrapDatatable extends React.Component {
             datatable_events = events || [],
             events_num = datatable_events.length,
             i = 0,
-            _dataTable = element.dataTable(options);
+            // https://datatables.net/upgrade/1.10
+            _dataTable = element.DataTable(options);
         // bind event
         for (; i < events_num; i++) {
           let _event = datatable_events[i],
@@ -70,8 +73,10 @@ class BootstrapDatatable extends React.Component {
     getOptionByProps() {
         let props = arguments[0],
             dtData = props.dtData,
+            // deep copy
+            props_options = JSON.parse(JSON.stringify(props.options)),
             options = {};
-        options = _.extend(props.options, {
+        options = _.extend(props_options, {
           aoColumns: props.columns,
           hasOptimizeDisplay: props.hasOptimizeDisplay
         });
@@ -79,10 +84,8 @@ class BootstrapDatatable extends React.Component {
           if (!!!options.serverSide) {
               options.deferRender = true;
           }
-          delete options.data;
           options.ajax = dtData;
         } else if ( dtData._method === 'data') {
-          delete options.ajax;
           options.data = dtData.data;
           if (options.hasOptimizeDisplay && options.data && options.data.length <= 10) {
               options.paging = false;
@@ -90,10 +93,8 @@ class BootstrapDatatable extends React.Component {
               options.lengthChange = false;
           }
         } else if ( dtData._method === 'url') {
-          delete options.data;
           options.ajax = dtData.url;
         } else if ( dtData._method === 'function') {
-          delete options.data;
           options.ajax = dtData.func;
         }
         return options;
