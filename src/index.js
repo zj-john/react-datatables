@@ -1,4 +1,7 @@
 import React from "react";
+window.jQuery = window.$ = require('jquery')
+$.fn.DataTable = require("./media/js/jquery.dataTables.min.js");
+// $.fn.DataTable = dataTable;
 import JqueryDatatable from "./components/JqueryDatatable.js";
 import BootstrapDatatable from "./components/BootstrapDatatable.js";
 import Bootstrap4Datatable from "./components/Bootstrap4Datatable.js";
@@ -7,6 +10,8 @@ import JqueryuiDatatable from "./components/JqueryuiDatatable.js";
 import MaterialDatatable from "./components/MaterialDatatable.js";
 import SemanticuiDatatable from "./components/SemanticuiDatatable.js";
 import UikitDatatable from "./components/UikitDatatable.js";
+
+
 
 class ReactDatatable extends React.Component {
     getDatatable() {

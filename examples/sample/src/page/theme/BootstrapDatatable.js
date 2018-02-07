@@ -13,6 +13,7 @@ class BootstrapDatatable extends React.Component {
 	    options.ording = false;
 			// deep copy
 	    this.options = JSON.parse(JSON.stringify(options));
+			this.options.processing = true;
       this.options_new = JSON.parse(JSON.stringify(options));
 	    this.events = [
 	      {
@@ -141,7 +142,7 @@ class BootstrapDatatable extends React.Component {
             }
         ]
 	    this.state = {
-	        dtData: null,
+	        dtData: null
 	    }
         this.handleClick = this.handleClick.bind(this);
 	}
@@ -149,6 +150,7 @@ class BootstrapDatatable extends React.Component {
 	componentWillMount () {
 			const url = "/api/basic/ajax";
       const method_url = "/api/method_url";
+			const page = this;
       let form_data = {
 				"range": "all"
       }
@@ -156,26 +158,29 @@ class BootstrapDatatable extends React.Component {
         _method: "url",
         url: method_url
       }
-      // let dtData_new = {
-      //   _method: "ajax",
-      //   url: url,
-      //   data: function (d) {
-      //       $.extend(d, form_data);
-      //       return JSON.stringify(d);
-      //   },
-      //   type: "post",
-      //   contentType: "application/json; charset=utf-8",
-      //   dataSrc: "data"
-      // }
-
-			let dtData_new = {
-        _method: "data",
-        data: [{"id":0,"name":"john","sex":"M"},{"id":1,"name":"Iris","sex":"F"}]
+      let dtData_new = {
+        _method: "ajax",
+        url: url,
+        data: function (d) {
+            $.extend(d, form_data);
+            return JSON.stringify(d);
+        },
+        type: "post",
+        contentType: "application/json; charset=utf-8",
+        dataSrc: "data"
       }
+			setTimeout(function(){
+				// let dtData_new = {
+	      //   _method: "data",
+	      //   data: [{"id":0,"name":"john","sex":"M"},{"id":1,"name":"Iris","sex":"F"}],
+				// 	_isLoading: false
+	      // }
 
-      this.setState({
-          dtData: dtData_new
-      })
+	      page.setState({
+	          dtData: dtData_new
+	      })
+			}, 5000);
+
     }
 
     handleClick() {
