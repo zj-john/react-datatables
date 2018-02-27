@@ -12,3 +12,14 @@
 <a name="1.0.3-beta1"></a>
 ## 1.0.3-beta1 (2018-02-06)
 1. 使用hack方法解决_method为data时，重复渲染的问题
+
+<a name="1.0.3-beta2"></a>
+## 1.0.3-beta2 (2018-02-07)
+1. 改变theme插件引入方式
+2. dtData不合法时的优化处理
+3. 改变deep copy的方式
+
+<a name="1.0.4"></a>
+## 1.0.4 (2018-02-27)
+1. 所有组件统一更新为1.0.3-beta2版
+2. dtData中_method为data时，添加_isLoading属性，标识是否是加载中

@@ -9,14 +9,9 @@ class BootstrapDatatable extends React.Component {
     }
 
     componentDidMount() {
-        // Promise.all([
-        //   import(`./../media/js/dataTables.bootstrap.min.js`),
-        //   import(`./../media/css/dataTables.bootstrap.min.css`)
-        // ]).then( () => {
-          let element = this.getElement(this.props.id, this.props.className),
-              props = jQuery.extend(true, {}, this.props);
-          this.datatable(element, props);
-        // });
+      let element = this.getElement(this.props.id, this.props.className),
+          props = jQuery.extend(true, {}, this.props);
+      this.datatable(element, props);
     }
 
     getElement(id, className) {
@@ -45,12 +40,6 @@ class BootstrapDatatable extends React.Component {
         if (!_.isEqual(oldPropsData, nextPropsData) || (hasCheckOptionsChange && !_.isEqual(oldPropsOptions, nextPropsOptions)) ) {
             // id 不一致 该如何
             let element = this.getElement(oldProps.id, oldProps.className);
-            // if ($.fn.DataTable.isDataTable(element)) {
-            //     let dt = element.DataTable();
-            //     dt.destroy();
-            //     // empty in case the columns change https://datatables.net/reference/api/destroy()
-            //     element.empty();
-            // }
             this.datatable(element, newProps);
         }
     }
@@ -61,9 +50,6 @@ class BootstrapDatatable extends React.Component {
             datatable_events = events || [],
             events_num = datatable_events.length,
             i = 0;
-        // if ($.fn.dataTable.isDataTable(element) || element.hasClass("dataTable")) {
-        //   return false;
-        // }
 
         import(`./../media/js/dataTables.bootstrap.min.js`).then(() => {
           if ($.fn.DataTable.isDataTable(element)) {

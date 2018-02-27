@@ -49,7 +49,7 @@ class BasicDatatable extends React.Component {
             type: "click",
             scope: "tbody tr td",
             func: function() {
-                console.log("a test");
+                console.log("this is a test");
             }
         }];
         // the columns for the datatable
@@ -181,6 +181,8 @@ dtData = {
 dtData = {
   // 标识 method 为 data
   _method: "data",
+  // 标识当前数据在加载中，支队data:[]有效
+  _isLoading: true
   // 数据
   data: [
     {
@@ -218,6 +220,22 @@ dtData = {
   }
 }
 ```
+
+### 其它
+如果dtData为null，或不存在，将按照以下逻辑处理，形成一种loading的效果。
+```
+options.columns = props.columns;
+options.data = [];
+options.language = {};
+options.language.emptyTable = props_options.language.loadingRecords || 'Loading...';
+options.paging = false;
+options.searching = false;
+options.lengthChange = false;
+options.info = false;
+```
+
+所以，dtData初始为null，后续setState赋值，可以连贯成一种加载的效果。
+
 
 ## columns
 提供Datatable的列信息，使用参考[Datatable columns](https://datatables.net/reference/option/columns)

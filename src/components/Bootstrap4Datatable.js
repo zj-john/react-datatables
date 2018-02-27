@@ -1,23 +1,17 @@
 import React from "react";
 import _ from "lodash";
+import(`./../media/css/dataTables.bootstrap4.min.css`);
 
-window.jQuery = window.$ = require('jquery')
-const dataTable = require("./../media/js/jquery.dataTables.min.js");
-$.fn.DataTable = dataTable;
 
-export default class Bootstrap4Datatable extends React.Component {
+class Bootstrap4Datatable extends React.Component {
     constructor (props){
         super(props);
     }
 
     componentDidMount() {
-        Promise.all([
-          import(`./../media/js/dataTables.bootstrap4.min.js`),
-          import(`./../media/css/dataTables.bootstrap4.min.css`)
-        ]).then( () => {
-          let element = this.getElement(this.props.id, this.props.className);
-          this.datatable(element, this.props);
-        });
+      let element = this.getElement(this.props.id, this.props.className),
+          props = jQuery.extend(true, {}, this.props);
+      this.datatable(element, props);
     }
 
     getElement(id, className) {
@@ -29,26 +23,24 @@ export default class Bootstrap4Datatable extends React.Component {
         class_list.map(function(item){
           class_selector = class_selector + "." + item;
         });
-        return $($(class_selector)[0]);
+        return $($(class_selector).get(0));
       } else {
-        return $($("table")[0]);
+        return $($("table").get(0));
       }
     }
 
     componentWillUpdate(nextProps) {
-        let oldPropsData = this.props.dtData,
-            nextPropsData = nextProps.dtData,
-            oldPropsOptions = this.props.options,
-            nextPropsOptions = nextProps.options,
-            hasCheckOptionsChange = nextProps.hasCheckOptionsChange || false;
+        let oldProps = jQuery.extend(true, {}, this.props),
+            newProps = jQuery.extend(true, {}, nextProps),
+            oldPropsData = oldProps.dtData,
+            nextPropsData = newProps.dtData,
+            oldPropsOptions = oldProps.options,
+            nextPropsOptions = newProps.options,
+            hasCheckOptionsChange = newProps.hasCheckOptionsChange || false;
         if (!_.isEqual(oldPropsData, nextPropsData) || (hasCheckOptionsChange && !_.isEqual(oldPropsOptions, nextPropsOptions)) ) {
-            let element = this.getElement(this.props.id, this.props.className);
-            if ($.fn.DataTable.isDataTable(element)) {
-                element.DataTable().destroy();
-                // empty in case the columns change https://datatables.net/reference/api/destroy()
-                element.empty();
-            }
-            this.datatable(element, nextProps);
+            // id 不一致 该如何
+            let element = this.getElement(oldProps.id, oldProps.className);
+            this.datatable(element, newProps);
         }
     }
 
@@ -57,37 +49,65 @@ export default class Bootstrap4Datatable extends React.Component {
             options = this.getOptionByProps(props),
             datatable_events = events || [],
             events_num = datatable_events.length,
-            i = 0,
-            // https://datatables.net/upgrade/1.10
-            _dataTable = element.DataTable(options);
-        // bind event
-        for (; i < events_num; i++) {
-          let _event = datatable_events[i],
-              type = _event.type,
-              scope = _event.scope,
-              func = _event.func;
-          element.on(type, scope, func);
-        }
+            i = 0;
+
+        import(`./../media/js/dataTables.bootstrap4.min.js`).then(() => {
+          if ($.fn.DataTable.isDataTable(element)) {
+              let dt = element.DataTable();
+              dt.destroy();
+              // empty in case the columns change https://datatables.net/reference/api/destroy()
+              element.empty();
+          }
+          // https://datatables.net/upgrade/1.10
+          element.DataTable(options);
+          // bind event
+          for (; i < events_num; i++) {
+            let _event = datatable_events[i],
+                type = _event.type,
+                scope = _event.scope,
+                func = _event.func;
+            element.on(type, scope, func);
+          }
+        });
+
+
     }
 
-    getOptionByProps() {
-        let props = arguments[0],
-            dtData = props.dtData,
-            // deep copy
-            props_options = JSON.parse(JSON.stringify(props.options)),
+    getOptionByProps(props) {
+        let dtData = props.dtData,
+            props_options = props.options,
+            hasOptimizeDisplay = props.hasOptimizeDisplay || false,
             options = {};
+        if ( !!!dtData || !dtData.hasOwnProperty("_method") ) {
+          options.columns = props.columns;
+          options.data = [];
+          options.language = {};
+          options.language.emptyTable = props_options.language.loadingRecords || 'Loading...';
+          options.paging = false;
+          options.searching = false;
+          options.lengthChange = false;
+          options.info = false;
+          return options;
+        }
         options = _.extend(props_options, {
-          aoColumns: props.columns,
-          hasOptimizeDisplay: props.hasOptimizeDisplay
+          columns: props.columns
         });
         if ( dtData._method === 'ajax') {
-          if (!!!options.serverSide) {
+          if (hasOptimizeDisplay) {
+            if (!!!options.serverSide) {
               options.deferRender = true;
+            } else {
+              options.processing = true;
+            }
           }
           options.ajax = dtData;
         } else if ( dtData._method === 'data') {
           options.data = dtData.data;
-          if (options.hasOptimizeDisplay && options.data && options.data.length <= 10) {
+          // isLoading 添加loading效果
+          if (dtData._isLoading) {
+            options.language.emptyTable = options.language.loadingRecords || 'Loading...';
+          }
+          if (hasOptimizeDisplay && options.data && options.data.length <= 10) {
               options.paging = false;
               options.searching = false;
               options.lengthChange = false;
@@ -111,8 +131,10 @@ export default class Bootstrap4Datatable extends React.Component {
         let {theme, options, dtData, columns, events,  hasCheckOptionsChange, hasOptimizeDisplay, ...props } = this.props;
 
         return (
-            <table {...props} id={ this.props.id }>
+            <table {...props} id={ this.props.id } className = {this.props.className}>
             </table>
         )
     }
 }
+
+export default Bootstrap4Datatable;
