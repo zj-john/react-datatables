@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import(`./../media/css/dataTables.min.css`);
+import(`./../media/css/jquery.dataTables.min.css`);
 
 
 class JqueryDatatable extends React.Component {
@@ -51,7 +51,7 @@ class JqueryDatatable extends React.Component {
             events_num = datatable_events.length,
             i = 0;
 
-        import(`./../media/js/dataTables.min.js`).then(() => {
+        import(`./../media/js/jquery.dataTables.min.js`).then(() => {
           if ($.fn.DataTable.isDataTable(element)) {
               let dt = element.DataTable();
               dt.destroy();
