@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import(`./../media/css/dataTables.jqueryui.min.css`);
+// import(`./../media/css/dataTables.jqueryui.min.css`);
 
 
 class JqueryuiDatatable extends React.Component {
@@ -50,8 +50,11 @@ class JqueryuiDatatable extends React.Component {
             datatable_events = events || [],
             events_num = datatable_events.length,
             i = 0;
-
-        import(`./../media/js/dataTables.jqueryui.min.js`).then(() => {
+        Promise.all([
+           import(`./../media/js/dataTables.jqueryui.min.js`),
+           import(`./../media/css/dataTables.jqueryui.min.css`)
+         ]).then(() => {
+        // import(`./../media/js/dataTables.jqueryui.min.js`).then(() => {
           if ($.fn.DataTable.isDataTable(element)) {
               let dt = element.DataTable();
               dt.destroy();

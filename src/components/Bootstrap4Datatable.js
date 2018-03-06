@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import(`./../media/css/dataTables.bootstrap4.min.css`);
+// import(`./../media/css/dataTables.bootstrap4.min.css`);
 
 
 class Bootstrap4Datatable extends React.Component {
@@ -50,8 +50,11 @@ class Bootstrap4Datatable extends React.Component {
             datatable_events = events || [],
             events_num = datatable_events.length,
             i = 0;
-
-        import(`./../media/js/dataTables.bootstrap4.min.js`).then(() => {
+        Promise.all([
+           import(`./../media/js/dataTables.bootstrap4.min.js`),
+           import(`./../media/css/dataTables.bootstrap4.min.css`)
+         ]).then(() => {
+        // import(`./../media/js/dataTables.bootstrap4.min.js`).then(() => {
           if ($.fn.DataTable.isDataTable(element)) {
               let dt = element.DataTable();
               dt.destroy();
