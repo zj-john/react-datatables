@@ -1,7 +1,7 @@
 import React from "react";
 window.jQuery = window.$ = require('jquery')
-$.fn.DataTable = require("./media/js/jquery.dataTables.min.js");
-// $.fn.DataTable = dataTable;
+// $.fn.DataTable = require("./media/js/jquery.dataTables.min.js");
+
 import JqueryDatatable from "./components/JqueryDatatable.js";
 import BootstrapDatatable from "./components/BootstrapDatatable.js";
 import Bootstrap4Datatable from "./components/Bootstrap4Datatable.js";
@@ -11,12 +11,9 @@ import MaterialDatatable from "./components/MaterialDatatable.js";
 import SemanticuiDatatable from "./components/SemanticuiDatatable.js";
 import UikitDatatable from "./components/UikitDatatable.js";
 
-
-
 class ReactDatatable extends React.Component {
     getDatatable() {
         let theme = this.props.theme || "default";
-
         // theme: one of ["bootstrap", "bootstrap4", "foundation", "jqueryui", "material", "semanticui", "uikit"], default JqueryDatatable
         switch (theme.toLowerCase()) {
             case "bootstrap":
@@ -35,8 +32,7 @@ class ReactDatatable extends React.Component {
                 return <UikitDatatable {...this.props}/>;
             default:
                 return <JqueryDatatable {...this.props}/>;
-        }
-        ;
+        };
     }
 
     render() {
