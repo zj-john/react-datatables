@@ -7,9 +7,10 @@ class Main extends React.Component {
 	render() {
 	    return (
 				<div className="">
+				{/*
 					<h3>JqueryDatatable:</h3>
 					<JqueryDatatable />
-
+				*/}
 					<h3>BootstrapDatatable:</h3>
 	        <BootstrapDatatable />
 

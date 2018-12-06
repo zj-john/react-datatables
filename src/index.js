@@ -1,5 +1,12 @@
 import React from "react";
-window.jQuery = window.$ = require('jquery')
+import $ from 'jquery';
+import dt from 'datatables.net';
+// import 'datatables.net-dt/css/jquery.datatables.css';
+
+window.jQuery = window.$ = $;
+// $.fn.DataTable = dt;
+// window.jQuery = window.$ = require('jquery');
+// $.fn.DataTable = require('datatables.net')();
 // $.fn.DataTable = require("./media/js/jquery.dataTables.min.js");
 
 import JqueryDatatable from "./components/JqueryDatatable.js";

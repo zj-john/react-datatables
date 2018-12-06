@@ -35,3 +35,8 @@
 <a name="1.0.7"></a>
 ## 1.0.7 (2018-12-04)
 1. 修复Datatable不同theme对应datatable版本不一致的问题
+
+<a name="1.0.8"></a>
+## 1.0.8 (2018-12-06)
+1. 去除require，更换为import
+2. 添加datatables.net-dt

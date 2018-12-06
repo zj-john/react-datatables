@@ -49,8 +49,9 @@ class JqueryDatatable extends React.Component {
             events_num = datatable_events.length,
             i = 0;
         Promise.all([
-           import('datatables.net'),
-           import(`./../media/css/jquery.dataTables.min.css`)
+           // import('datatables.net'),
+           // import(`./../media/css/jquery.dataTables.min.css`)
+           import('datatables.net-dt/css/jquery.datatables.css')
          ]).then(() => {
           if ($.fn.DataTable.isDataTable(element)) {
               let dt = element.DataTable();

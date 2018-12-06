@@ -1,6 +1,6 @@
 {
   "name": "react-datatable-jq",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Datatable components built with React and JQuery",
   "main": "lib/index.js",
   "scripts": {
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/zj-john/react-datatables",
   "dependencies": {
     "datatables.net": "^1.10.16",
+    "datatables.net-dt": "^1.10.19",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "react": "^16.2.0",
