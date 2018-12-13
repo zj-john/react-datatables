@@ -43,4 +43,10 @@
 
 <a name="1.0.9"></a>
 ## 1.0.9 (2018-12-06)
-1.  1.0.8 build版本
+1. 1.0.8 build版本
+
+<a name="2.0.0"></a>
+## 2.0.0 (2018-12-13)
+1. 重构ReactDatatable组件
+2. 不再区分theme，把theme样式、js放在客户端选择和渲染
+3. 去除 theme,hasCheckOptionsChange 这2个prop

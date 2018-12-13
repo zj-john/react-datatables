@@ -1,8 +1,6 @@
 var path = require('path');
 module.exports = {
-  entry: {
-  	app:['./src/index.js']
-  },
+  entry: ["babel-polyfill", './src/index.js'],
   output: {
     path: path.resolve(__dirname, './build'),
     filename: 'bundle.js',
@@ -16,7 +14,7 @@ module.exports = {
         exclude: /node_modules/,
         query: {
           presets: [
-            ["env", {"modules": false}], "stage-2", 'react'
+            "stage-2", 'react'
           ]
         }
       },
