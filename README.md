@@ -314,3 +314,15 @@ import 'react-datatable-jq/lib/media/css/dataTables.uikit.min.css'
 
 
 > 除了加载以上样式外，请记得把框架本身的js和css导入。例如选择bootstrap样式时，需要同时引用bootstrap.css，bootstrap.js文件来辅助样式（根据不同主题要求而定）
+
+# 常见问题
+1. NotFoundError: Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.
+如果遇到这个报错，只需要在<Datatable>组件外层套一个<div>即可,如下
+```
+import Datatable from 'react-datatable-jq'
+
+<div>
+	<Datatable {...props}>
+</div>
+```
+
